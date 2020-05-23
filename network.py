@@ -44,12 +44,15 @@ import matplotlib.pyplot as plt
 import os
 import time
 from skimage.transform import resize, rescale
+import wandb
+from wandb.tensorflow import WandbHook
+wandb.init(project="invoice", sync_tensorboard=True)
 
 ## Hyperparameters
-dir_np_chargrid_1h = "./data/np_chargrids_1h/"
-dir_np_gt_1h = "./data/np_gt_1h/"
-dir_np_bbox_anchor_mask = "./data/np_bbox_anchor_mask/"
-dir_np_bbox_anchor_coord = "./data/np_bbox_anchor_coord/"
+dir_np_chargrid_1h = "./invoice_eng/outdir_np_chargrids_1h/"
+dir_np_gt_1h = "../invoice_eng/outdir_np_gt_1h/"
+dir_np_bbox_anchor_mask = "./invoice_eng/outdir_np_bbox_anchor_mask/"
+dir_np_bbox_anchor_coord = "./invoice_eng/outdir_np_bbox_anchor_coord/"
 width = 128
 height = 256
 input_channels = 61
@@ -59,14 +62,14 @@ momentum = 0.9
 weight_decay = 0.1
 spatial_dropout = 0.1
 nb_classes = 5
-proba_classes = np.array([0.89096397, 0.01125766, 0.0504345, 0.03237164, 0.01497223]) #other, total, address, company, date
+proba_classes = np.array([0.89113252, 0.0113842, 0.0502577, 0.03224928, 0.0149763]) #other, total, address, company, date
 constant_weight = 1.04
 nb_anchors = 4 # one per foreground class
 epochs = 10
 batch_size = 6
 prop_test = 0.2
 seed = 123456
-filename_backup = "./output/model.ckpt"
+filename_backup = "./invoice_eng/output/model.ckpt"
 pad_left_range = 0.2
 pad_top_range = 0.2
 pad_right_range = 0.2
