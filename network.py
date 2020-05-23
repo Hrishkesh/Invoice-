@@ -50,7 +50,7 @@ wandb.init(project="invoice", sync_tensorboard=True)
 
 
 ## Hyperparameters
-dir_np_chargrid_1h = "/content/invoice_eng/outdir_np_chargrids_1h/"
+dir_np_chargrid_1h = "/content/invoice_eng/outdir_np_chargrid_1h/"
 dir_np_gt_1h = "/content/invoice_eng/outdir_np_gt_1h/"
 dir_np_bbox_anchor_mask = "/content/invoice_eng/outdir_np_bbox_anchor_mask/"
 dir_np_bbox_anchor_coord = "/content/invoice_eng/outdir_np_bbox_anchor_coord/"
