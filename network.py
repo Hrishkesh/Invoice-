@@ -48,11 +48,12 @@ import wandb
 from wandb.tensorflow import WandbHook
 wandb.init(project="invoice", sync_tensorboard=True)
 
+
 ## Hyperparameters
-dir_np_chargrid_1h = "./invoice_eng/outdir_np_chargrids_1h/"
-dir_np_gt_1h = "../invoice_eng/outdir_np_gt_1h/"
-dir_np_bbox_anchor_mask = "./invoice_eng/outdir_np_bbox_anchor_mask/"
-dir_np_bbox_anchor_coord = "./invoice_eng/outdir_np_bbox_anchor_coord/"
+dir_np_chargrid_1h = "/content/invoice_eng/outdir_np_chargrids_1h/"
+dir_np_gt_1h = "/content/invoice_eng/outdir_np_gt_1h/"
+dir_np_bbox_anchor_mask = "/content/invoice_eng/outdir_np_bbox_anchor_mask/"
+dir_np_bbox_anchor_coord = "/content/invoice_eng/outdir_np_bbox_anchor_coord/"
 width = 128
 height = 256
 input_channels = 61
@@ -69,7 +70,7 @@ epochs = 10
 batch_size = 6
 prop_test = 0.2
 seed = 123456
-filename_backup = "./invoice_eng/output/model.ckpt"
+filename_backup = "/content/invoice_eng/output/model.ckpt"
 pad_left_range = 0.2
 pad_top_range = 0.2
 pad_right_range = 0.2
