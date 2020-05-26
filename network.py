@@ -606,12 +606,12 @@ if __name__ == "__main__":
     net.save_weights(filename_backup)
     
     ## Plot loss
-    plot_loss(history_loss, history_val_loss, "Global Loss", "./output/global_loss.pdf")
-    plot_loss(history_loss_output1, history_val_loss_output1, "Output 1 Loss", "./output/output_1_loss.pdf")
-    plot_loss(history_loss_output2, history_val_loss_output2, "Output 2 Loss", "./output/output_2_loss.pdf")
-    plot_loss(history_loss_output3, history_val_loss_output3, "Output 3 Loss", "./output/output_3_loss.pdf")
+    plot_loss(history_loss, history_val_loss, "Global Loss", "/content/invoice_eng/output/global_loss.pdf")
+    plot_loss(history_loss_output1, history_val_loss_output1, "Output 1 Loss", "/content/invoice_eng/output/output_1_loss.pdf")
+    plot_loss(history_loss_output2, history_val_loss_output2, "Output 2 Loss", "/content/invoice_eng/output/output_2_loss.pdf")
+    plot_loss(history_loss_output3, history_val_loss_output3, "Output 3 Loss", "/content/invoice_eng/output/output_3_loss.pdf")
     
     ## Plot time
-    plot_time(history_time_train, "Train time", "./output/train_time.pdf")
-    plot_time(history_time_test, "Test time", "./output/test_time.pdf")
+    plot_time(history_time_train, "Train time", "/content/invoice_eng/output/train_time.pdf")
+    plot_time(history_time_test, "Test time", "/content/invoice_eng/output/test_time.pdf")
     
