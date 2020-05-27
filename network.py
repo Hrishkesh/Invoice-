@@ -44,6 +44,7 @@ import matplotlib.pyplot as plt
 import os
 import time
 from skimage.transform import resize, rescale
+from datetime import datetime
 import wandb
 from wandb.tensorflow import WandbHook
 wandb.init(project="invoice", sync_tensorboard=True)
