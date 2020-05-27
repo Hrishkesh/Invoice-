@@ -47,6 +47,8 @@ from skimage.transform import resize, rescale
 import wandb
 from wandb.tensorflow import WandbHook
 wandb.init(project="invoice", sync_tensorboard=True)
+logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 
 
 ## Hyperparameters
@@ -563,7 +565,7 @@ def train(net, trainset, testset):
         tps_train = time.time()
         batch_chargrid, batch_seg, batch_mask, batch_coord = extract_batch(trainset, batch_size, pad_left_range, pad_top_range, pad_right_range, pad_bot_range)
         
-        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord])
+        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[tensorboard_callback])
         history_time_train.append(time.time()-tps_train)
         history_loss.append(history.history["loss"])
         history_loss_output1.append(history.history["output_1_loss"])
