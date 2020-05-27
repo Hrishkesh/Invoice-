@@ -607,8 +607,6 @@ if __name__ == "__main__":
     
     net.save_weights(filename_backup)
 
-    # Save model to wandb
-    net.save(os.path.join(wandb.run.dir, "model.h5"))
     
     ## Plot loss
     plot_loss(history_loss, history_val_loss, "Global Loss", "/content/invoice_eng/output/global_loss.pdf")
