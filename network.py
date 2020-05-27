@@ -47,10 +47,8 @@ from skimage.transform import resize, rescale
 from datetime import datetime
 from tensorflow import keras
 import wandb
-from wandb.tensorflow import WandbHook
-wandb.init(project="invoice", sync_tensorboard=True)
-logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
+from wandb.keras import WandbCallback
+wandb.init(project="invoice-new")
 
 
 ## Hyperparameters
@@ -567,7 +565,7 @@ def train(net, trainset, testset):
         tps_train = time.time()
         batch_chargrid, batch_seg, batch_mask, batch_coord = extract_batch(trainset, batch_size, pad_left_range, pad_top_range, pad_right_range, pad_bot_range)
         
-        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[tensorboard_callback])
+        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[WandbCallback()])
         history_time_train.append(time.time()-tps_train)
         history_loss.append(history.history["loss"])
         history_loss_output1.append(history.history["output_1_loss"])
@@ -608,6 +606,9 @@ if __name__ == "__main__":
     print("Execution time = ", exec_time)
     
     net.save_weights(filename_backup)
+
+    # Save model to wandb
+    net.save(os.path.join(wandb.run.dir, "model.h5"))
     
     ## Plot loss
     plot_loss(history_loss, history_val_loss, "Global Loss", "/content/invoice_eng/output/global_loss.pdf")
