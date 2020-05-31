@@ -295,17 +295,19 @@ class Network(tf.keras.Model):
 
 
     def call(self, input):
+        ## Input shape 256, 128, 61
+        ## 61 channels because 61 significant characters out of 93 distinct characters
         ## Encoder
-        x = self.z1(input)
-        x = self.z1_lrelu(x)
-        x = self.z1_bn(x)
-        x = self.z2(x)
+        x = self.z1(input) ## 256, 128, 64
+        x = self.z1_lrelu(x) ## 256, 128, 64
+        x = self.z1_bn(x) ## 256, 128, 64
+        x = self.z2(x)  ## 256, 128, 64
         x = self.z2_lrelu(x)
         x = self.z2_bn(x)
         x = self.z3(x)
         x = self.z3_lrelu(x)
         x = self.z3_bn(x)
-        out_z = self.z4(x)
+        out_z = self.z4(x)  ## 256, 128, 64
         
         x = self.a1(out_z)
         x = self.a1_lrelu(x)
@@ -316,9 +318,9 @@ class Network(tf.keras.Model):
         x = self.a3(x)
         x = self.a3_lrelu(x)
         x = self.a3_bn(x)
-        out_a = self.a4(x)
+        out_a = self.a4(x)  # 128, 64, 128
         
-        out_a_bis = []
+        out_a_bis = []  # [(64 , 32 , 256), (32, 16, 512), (32, 16, 512)]
         x = out_a
         for i in range(0, len(self.a_bis_filters)):
             x = self.a_bis1[i](x)
@@ -331,10 +333,10 @@ class Network(tf.keras.Model):
             x = self.a_bis3_lrelu[i](x)
             x = self.a_bis3_bn[i](x)
             x = self.a_bis4[i](x)
-            out_a_bis.append(x)
+            out_a_bis.append(x)  
         
         ## Decoder Semantic Segmentation
-        concat_tab = [out_a_bis[1], out_a_bis[0]]
+        concat_tab = [out_a_bis[1], out_a_bis[0]]  # Why 0 and 1?
         for i in range(0, len(self.b_ss_filters)):
             x = tf.concat([x, concat_tab[i]], 3)
             x = self.b_ss1[i](x)
@@ -350,6 +352,8 @@ class Network(tf.keras.Model):
             x = self.b_ss4_lrelu[i](x)
             x = self.b_ss4_bn[i](x)
             x = self.b_ss5[i](x)
+
+        ## 128, 64, 128
         
         x = tf.concat([x, out_a], 3)
         x = self.c_ss1(x)
@@ -366,7 +370,7 @@ class Network(tf.keras.Model):
         x = self.d2_lrelu(x)
         x = self.d2_bn(x)
         x = self.d3(x)
-        out_d = self.d3_softmax(x)
+        out_d = self.d3_softmax(x)  ## 256, 128, 5
         
         ## Decoder Bounding Box Regression
         concat_tab = [out_a_bis[1], out_a_bis[0]]
@@ -412,7 +416,7 @@ class Network(tf.keras.Model):
         x = self.f2_bn(x)
         out_f = self.f3(x)
         
-        return out_d, out_e, out_f
+        return out_d, out_e, out_f ## out_d --> (256,128,5), out_e --> (256, 128, 8) , out_f --> (256, 128, 16)
 
 def augment_data(data, tab_rand, order, shape, coord=False):
     data_temp = resize(np.pad(data, ((tab_rand[1], tab_rand[3]), (tab_rand[0], tab_rand[2]), (0, 0)), 'constant'), shape, order=order, anti_aliasing=True)
@@ -564,6 +568,11 @@ def train(net, trainset, testset):
         #Training
         tps_train = time.time()
         batch_chargrid, batch_seg, batch_mask, batch_coord = extract_batch(trainset, batch_size, pad_left_range, pad_top_range, pad_right_range, pad_bot_range)
+
+        ## batch_chargrid 6, 256, 128, 61 --> input batch of size 6  --> X
+        ## batch_seg 6, 256, 128, 5  --> output batch of size 6 --> Y1
+        ## batch_mask 6, 256, 128, 8 --> output mask batch of size 6 --> Y2
+        ## batch_coord 6, 256, 128, 16 --> output coordinate batch of size 6 --> Y3
         
         history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[WandbCallback()])
         history_time_train.append(time.time()-tps_train)
@@ -600,7 +609,7 @@ if __name__ == "__main__":
     sample_weight_seg, sample_weight_boxmask = get_class_weights()
     
     net = initialize_network(sample_weight_seg, sample_weight_boxmask)
-    #net.summary()
+    net.summary()
     
     history_time_train, history_loss, history_loss_output1, history_loss_output2, history_loss_output3, history_time_test, history_val_loss, history_val_loss_output1, history_val_loss_output2, history_val_loss_output3, exec_time = train(net, trainset, testset)
     print("Execution time = ", exec_time)
