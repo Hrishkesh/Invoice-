@@ -456,17 +456,17 @@ def extract_batch(dataset, batch_size, pad_left_range, pad_top_range, pad_right_
     anchor_coord_gt = []
     
     for i in range(0, batch_size):
-        data = np.load(os.path.join(dir_np_chargrid_1h, dataset[i]))
-        chargrid_input.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, input_channels)))
+        data = np.load(os.path.join(dir_np_chargrid_1h, dataset[i])) # 256,128,61
+        chargrid_input.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, input_channels)))  # 256,128,61
         
-        data = np.load(os.path.join(dir_np_gt_1h, dataset[i]))
-        seg_gt.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, nb_classes)))
+        data = np.load(os.path.join(dir_np_gt_1h, dataset[i]))  # 256,128,5
+        seg_gt.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, nb_classes)))  # 256,128,5
         
-        data = np.load(os.path.join(dir_np_bbox_anchor_mask, dataset[i]))
-        anchor_mask_gt.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, 2*nb_anchors)))
+        data = np.load(os.path.join(dir_np_bbox_anchor_mask, dataset[i]))  # 256,128,8
+        anchor_mask_gt.append(augment_data(data, tab_rand[i], order=1, shape=(height, width, 2*nb_anchors)))  # 256,128,8
         
-        data = np.load(os.path.join(dir_np_bbox_anchor_coord, dataset[i]))
-        anchor_coord_gt.append(augment_data(data, tab_rand[i], order=0, shape=(height, width, 4*nb_anchors), coord=True))
+        data = np.load(os.path.join(dir_np_bbox_anchor_coord, dataset[i]))  #256,128,16
+        anchor_coord_gt.append(augment_data(data, tab_rand[i], order=0, shape=(height, width, 4*nb_anchors), coord=True)) #256,128,16
         
     return np.array(chargrid_input), np.array(seg_gt), np.array(anchor_mask_gt), np.array(anchor_coord_gt)
 
@@ -571,8 +571,7 @@ def train(net, trainset, testset):
 
         ## batch_chargrid 6, 256, 128, 61 --> input batch of size 6  --> X
         ## batch_seg 6, 256, 128, 5  --> output batch of size 6 --> Y1
-        ## batch_mask 6, 256, 128, 8 --> output mask batch of size 6 --> Y2
-        ## batch_coord 6, 256, 128, 16 --> output coordinate batch of size 6 --> Y3
+        ## 
         
         history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[WandbCallback()])
         history_time_train.append(time.time()-tps_train)
