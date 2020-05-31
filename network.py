@@ -52,10 +52,10 @@ wandb.init(project="invoice-new")
 
 
 ## Hyperparameters
-dir_np_chargrid_1h = "/content/invoice_eng/outdir_np_chargrid_1h/"
-dir_np_gt_1h = "/content/invoice_eng/outdir_np_gt_1h/"
-dir_np_bbox_anchor_mask = "/content/invoice_eng/outdir_np_bbox_anchor_mask/"
-dir_np_bbox_anchor_coord = "/content/invoice_eng/outdir_np_bbox_anchor_coord/"
+dir_np_chargrid_1h = "/content/drive/My Drive/invoice_eng/outdir_np_chargrid_1h/"
+dir_np_gt_1h = "/content/drive/My Drive/invoice_eng/outdir_np_gt_1h/"
+dir_np_bbox_anchor_mask = "/content/drive/My Drive/invoice_eng/outdir_np_bbox_anchor_mask/"
+dir_np_bbox_anchor_coord = "/content/drive/My Drive/invoice_eng/outdir_np_bbox_anchor_coord/"
 width = 128
 height = 256
 input_channels = 61
@@ -68,11 +68,11 @@ nb_classes = 5
 proba_classes = np.array([0.89113252, 0.0113842, 0.0502577, 0.03224928, 0.0149763]) #other, total, address, company, date
 constant_weight = 1.04
 nb_anchors = 4 # one per foreground class
-epochs = 10
+epochs = 100
 batch_size = 6
 prop_test = 0.2
 seed = 123456
-filename_backup = "/content/invoice_eng/output/model.ckpt"
+filename_backup = "/content/drive/My Drive/invoice_eng/output/model.ckpt"
 pad_left_range = 0.2
 pad_top_range = 0.2
 pad_right_range = 0.2
@@ -483,9 +483,10 @@ def initialize_network(sample_weight_seg, sample_weight_boxmask):
     net = Network()
     
     losses = {'output_1': tf.keras.losses.BinaryCrossentropy(), 'output_2': tf.keras.losses.BinaryCrossentropy(), 'output_3': tf.keras.losses.Huber()}
+    metrics = {'output_1': tf.keras.metrics.MeanIoU(num_classes=5), 'output_2': tf.keras.metrics.CategoricalAccuracy(), 'output_3': tf.keras.metrics.CategoricalAccuracy()}
     sample_weights = {'output_1': sample_weight_seg, 'output_2': sample_weight_boxmask}
     
-    net.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate, momentum=momentum, nesterov=False), loss=losses, sample_weight=sample_weights)
+    net.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate, momentum=momentum, nesterov=False), loss=losses, metrics=metrics, sample_weight=sample_weights)
     net.build((None, height, width, input_channels))
     
     return net
