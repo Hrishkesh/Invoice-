@@ -34,13 +34,13 @@ import os
 from skimage.transform import resize
 
 ## Hyperparameters
-dir_np_chargrid_reduced = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_chargrid_reduced"
-dir_np_gt_reduced = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_gt_reduced"
-dir_pd_bbox_reduced = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_pd_bbox_reduced"
-outdir_np_chargrid_1h = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_chargrid_1h"
-outdir_np_gt_1h = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_gt_1h"
-outdir_np_bbox_anchor_mask = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_bbox_anchor_mask"
-outdir_np_bbox_anchor_coord = "D:\Masters\Master_Thesis\RPA_with_AI\Code\ICDAR_SROIE\outdir_np_bbox_anchor_coord"
+dir_np_chargrid_reduced = "/content/drive/My Drive/invoice_eng/outdir_np_chargrid_reduced"
+dir_np_gt_reduced = "/content/drive/My Drive/invoice_eng/outdir_np_gt_reduced"
+dir_pd_bbox_reduced = "/content/drive/My Drive/invoice_eng/outdir_pd_bbox_reduced"
+outdir_np_chargrid_1h = "/content/drive/My Drive/invoice_eng/outdir_np_chargrid_1h"
+outdir_np_gt_1h = "/content/drive/My Drive/invoice_eng/outdir_np_gt_1h"
+outdir_np_bbox_anchor_mask = "/content/drive/My Drive/invoice_eng/outdir_np_bbox_anchor_mask"
+outdir_np_bbox_anchor_coord = "/content/drive/My Drive/invoice_eng/outdir_np_bbox_anchor_coord"
 target_height = 256
 target_width = 128
 target_digit = 61
