@@ -48,7 +48,7 @@ from datetime import datetime
 from tensorflow import keras
 import wandb
 from wandb.keras import WandbCallback
-wandb.init(project="invoice-new")
+wandb.init(project="invoice-new", sync_tensorboard=True)
 logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 
