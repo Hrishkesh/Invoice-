@@ -73,11 +73,11 @@ def print_stats_seg(tab_gt):
     print("prop_nb_class=", prop_nb_class, prop_nb_class/np.sum(prop_nb_class))
     print("prop_class=", prop_class, prop_class/np.sum(prop_class))
 
-def discard_digits_with_low_occurence(tab_img):
+def discard_digits_with_low_occurence(tab_img): #unique characters are 93 (ascii)
     nb_unique_digit, count_digit = np.unique(np.concatenate([img.flatten() for img in tab_img]), return_counts=True)
-    mask_digit_to_keep = count_digit>nb_digit_threshold
-
-    new_digit_nb = np.cumsum(mask_digit_to_keep)
+    mask_digit_to_keep = count_digit>nb_digit_threshold #count_digit to count the no of each character appearing in a image
+    
+    new_digit_nb = np.cumsum(mask_digit_to_keep) #the low occurence less than 10000 are 35
     new_digit_nb -= 1
     
     for i in range(1, len(new_digit_nb)):
@@ -96,7 +96,7 @@ def convert_to_1h(img, gt):
 
     return img_1h, gt_1h
 
-def resize_to_target(img_1h, gt_1h):
+def resize_to_target(img_1h, gt_1h): #(256,128,61) (256,128,5)
     img_1h = resize(img_1h, (target_height, target_width, target_digit), order=1, anti_aliasing=True)
     gt_1h = resize(gt_1h, (target_height, target_width, target_class), order=1, anti_aliasing=True)
     
@@ -119,7 +119,7 @@ def extract_anchor_mask(pd_bbox, img_shape):
     
     np_bbox_anchor_mask = resize(np_bbox_anchor_mask, (target_height, target_width, 2*nb_anchors), order=1, anti_aliasing=True)
     
-    return np_bbox_anchor_mask
+    return np_bbox_anchor_mask #(256,128,8) 2xnb_anchors(foreground versus background)
 
 def extract_anchor_coordinates(pd_bbox, img_shape):
     pd_bbox['left'] /= img_shape[1]
@@ -145,7 +145,7 @@ def extract_anchor_coordinates(pd_bbox, img_shape):
             np_bbox_anchor_coord[row["np_top"]:row["np_bot"], row["np_left"]:row["np_right"], 4*(row["class"]-1)+2] = row["right"]
             np_bbox_anchor_coord[row["np_top"]:row["np_bot"], row["np_left"]:row["np_right"], 4*(row["class"]-1)+3] = row["bot"]
     
-    return np_bbox_anchor_coord
+    return np_bbox_anchor_coord #(256,128,16) 4Xnb_anchors(box coordinates)
     
 def plot_anchor(gt_1h, np_bbox_anchor_mask, np_bbox_anchor_coord):    
     fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7) = plt.subplots(1, 7)
