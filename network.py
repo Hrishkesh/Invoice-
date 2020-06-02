@@ -49,6 +49,8 @@ from tensorflow import keras
 import wandb
 from wandb.keras import WandbCallback
 wandb.init(project="invoice-new")
+logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 
 
 ## Hyperparameters
@@ -574,7 +576,7 @@ def train(net, trainset, testset):
         ## batch_seg 6, 256, 128, 5  --> output batch of size 6 --> Y1
         ## 
         
-        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[WandbCallback()])
+        history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[tensorboard_callback])
         history_time_train.append(time.time()-tps_train)
         history_loss.append(history.history["loss"])
         history_loss_output1.append(history.history["output_1_loss"])
