@@ -480,6 +480,7 @@ def get_class_weights():
     sample_weight_boxmask = np.ones((height, width, 2*nb_anchors))*1.0/np.log(constant_weight+proba_classes_boxmask)
     
     return sample_weight_seg, sample_weight_boxmask
+    #sample_weight_seg = 256,128,5  sample_weight_boxmask = 256,128,8
 
 def initialize_network(sample_weight_seg, sample_weight_boxmask):
     net = Network()
