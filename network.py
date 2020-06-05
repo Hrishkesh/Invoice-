@@ -62,7 +62,7 @@ width = 128
 height = 256
 input_channels = 61
 base_channels = 64
-learning_rate = 0.05
+learning_rate = 0.001
 momentum = 0.9
 weight_decay = 0.1
 spatial_dropout = 0.1
@@ -70,7 +70,7 @@ nb_classes = 5
 proba_classes = np.array([0.89113252, 0.0113842, 0.0502577, 0.03224928, 0.0149763]) #other, total, address, company, date
 constant_weight = 1.04
 nb_anchors = 4 # one per foreground class
-epochs = 100
+epochs = 10
 batch_size = 6
 prop_test = 0.2
 seed = 123456
@@ -620,12 +620,12 @@ if __name__ == "__main__":
 
     
     ## Plot loss
-    plot_loss(history_loss, history_val_loss, "Global Loss", "/content/invoice_eng/output/global_loss.pdf")
-    plot_loss(history_loss_output1, history_val_loss_output1, "Output 1 Loss", "/content/invoice_eng/output/output_1_loss.pdf")
-    plot_loss(history_loss_output2, history_val_loss_output2, "Output 2 Loss", "/content/invoice_eng/output/output_2_loss.pdf")
-    plot_loss(history_loss_output3, history_val_loss_output3, "Output 3 Loss", "/content/invoice_eng/output/output_3_loss.pdf")
+    plot_loss(history_loss, history_val_loss, "Global Loss", "/content/drive/My Drive/invoice_eng/output/global_loss.pdf")
+    plot_loss(history_loss_output1, history_val_loss_output1, "Output 1 Loss", "/content/drive/My Drive/invoice_eng/output/output_1_loss.pdf")
+    plot_loss(history_loss_output2, history_val_loss_output2, "Output 2 Loss", "/content/drive/My Drive/invoice_eng/output/output_2_loss.pdf")
+    plot_loss(history_loss_output3, history_val_loss_output3, "Output 3 Loss", "/content/drive/My Drive/invoice_eng/output/output_3_loss.pdf")
     
     ## Plot time
-    plot_time(history_time_train, "Train time", "/content/invoice_eng/output/train_time.pdf")
-    plot_time(history_time_test, "Test time", "/content/invoice_eng/output/test_time.pdf")
+    plot_time(history_time_train, "Train time", "/content/drive/My Drive/invoice_eng/output/train_time.pdf")
+    plot_time(history_time_test, "Test time", "/content/drive/My Drive/invoice_eng/output/test_time.pdf")
     
