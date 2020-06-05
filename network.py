@@ -574,7 +574,8 @@ def train(net, trainset, testset):
 
         ## batch_chargrid 6, 256, 128, 61 --> input batch of size 6  --> X
         ## batch_seg 6, 256, 128, 5  --> output batch of size 6 --> Y1
-        ## 
+        ## batch_mask 6, 256,128, 8 --> output batch of size 6 -->  Y2
+        ## batch_coord 6, 256,128, 16 --> output batch of size 6--> Y3
         
         history = net.fit(x=batch_chargrid, y=[batch_seg, batch_mask, batch_coord], callbacks=[tensorboard_callback])
         history_time_train.append(time.time()-tps_train)
